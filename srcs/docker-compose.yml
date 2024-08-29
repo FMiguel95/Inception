@@ -1,0 +1,15 @@
+services:
+
+  mariadb:
+    image:
+    container_name: mariadb
+    build: ./requirements/mariadb
+    expose:
+      - 3306
+    env_file: .env
+    restart: on-failure
+    networks:
+      - inception
+
+networks:
+  inception:
