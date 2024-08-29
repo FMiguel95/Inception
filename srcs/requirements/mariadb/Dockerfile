@@ -1,6 +1,15 @@
 # Use a lightweight base image
 FROM debian:bullseye
 
+# MariaDB Variables
+ENV DB_NAME="wp_database"
+ENV DB_USER_NAME="dbuser"
+ENV DB_USER_PASS="123"
+ENV DB_ROOT_PASS="123"
+ENV DB_HOST="mariadb"
+
+
+
 # Install MariaDB
 RUN apt-get update && apt-get install -y mariadb-server
 

@@ -1,13 +1,12 @@
 NAME = inception
 COMPOSE = ./srcs/docker-compose.yml
 
-#all: folders up 
 all: folders up 
 
 folders:
-	sudo mkdir -p ~/data
-	sudo mkdir -p ~/data/mdbfiles
-	sudo mkdir -p ~/data/wpfiles
+	mkdir -p ~/data
+	mkdir -p ~/data/mdbfiles
+	mkdir -p ~/data/wpfiles
 
 up:
 	docker compose -p $(NAME) -f $(COMPOSE) up --build -d
@@ -27,7 +26,7 @@ rm-image:
 clean: down rm-image
 
 fclean: clean
-	sudo rm -rf ~/data
+	rm -rf ~/data
 	docker system prune -a
 
 re: fclean folders up

@@ -1,7 +1,6 @@
 services:
 
   mariadb:
-    image:
     container_name: mariadb
     build: ./requirements/mariadb
     expose:
