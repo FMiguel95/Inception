@@ -1,16 +1,29 @@
 #!/bin/bash
-
-service mariadb start
+set -e
 
 echo "Setting up MariaDB..."
 
-mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
-mysql -u root -e "CREATE USER IF NOT EXISTS '$DB_USER_NAME'@'%' IDENTIFIED BY '$DB_USER_PASS';"
-mysql -u root -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER_NAME'@'%' IDENTIFIED BY '$DB_USER_PASS';"
-mysql -u root -e "FLUSH PRIVILEGES;"
+# Start MariaDB in safe mode without networking to allow for initialization
+mysqld_safe --skip-networking &
+
+# Wait for MariaDB to be ready
+until mysql -u root -e "SELECT 1"; do
+  echo "Waiting for MariaDB to start..."
+  sleep 2
+done
+
+# Set up the database and user
+mysql -u root <<-EOSQL
+    CREATE DATABASE IF NOT EXISTS ${DB_NAME};
+    CREATE USER IF NOT EXISTS '${DB_USER_NAME}'@'%' IDENTIFIED BY '${DB_USER_PASS}';
+    GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER_NAME}'@'%';
+    FLUSH PRIVILEGES;
+EOSQL
 
 echo "MariaDB setup completed successfully."
 
-service mariadb stop
+# Stop the safe mode MariaDB instance
+mysqladmin -u root shutdown
 
-exec "$@"
+# Start MariaDB normally, replacing the current shell process with the mysqld process
+exec mysqld
