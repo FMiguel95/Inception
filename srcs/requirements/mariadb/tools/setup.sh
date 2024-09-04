@@ -26,4 +26,4 @@ echo "MariaDB setup completed successfully."
 mysqladmin -u root shutdown
 
 # Start MariaDB normally, replacing the current shell process with the mysqld process
-exec mysqld
+exec mysql
