@@ -13,6 +13,4 @@ COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 COPY ./tools/setup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/setup.sh
 
-RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
-
-CMD ["/usr/local/bin/setup.sh"]
+ENTRYPOINT ["setup.sh"]
