@@ -13,6 +13,6 @@ COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 COPY ./tools/setup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/setup.sh
 
-# Start MariaDB when the container launches
-ENTRYPOINT [ "setup.sh" ]
-CMD ["mariadb"]
+RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
+
+CMD ["/usr/local/bin/setup.sh"]
