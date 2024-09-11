@@ -11,6 +11,15 @@ services:
     networks:
       - inception
 
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress
+    env_file:
+      - .env
+    restart: on-failure
+    networks:
+      - inception
+
 networks:
   inception:
     driver: bridge
