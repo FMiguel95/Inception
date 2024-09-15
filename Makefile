@@ -5,8 +5,8 @@ all: folders up
 
 folders:
 	mkdir -p ~/data
-	mkdir -p ~/data/mdbfiles
-	mkdir -p ~/data/wpfiles
+	mkdir -p ~/data/mariadb
+	mkdir -p ~/data/wordpress
 
 up:
 	docker compose -p $(NAME) -f $(COMPOSE) up --build -d

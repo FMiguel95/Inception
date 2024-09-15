@@ -10,16 +10,33 @@ services:
     restart: on-failure
     networks:
       - inception
+    volumes:
+      - mariadb_data:/var/lib/mysql
 
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress
+    expose:
+      - 9000
     env_file:
       - .env
     restart: on-failure
+    depends_on:
+      - mariadb
     networks:
       - inception
 
+volumes:
+
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ~/data/mariadb
+      o: bind
+
+
 networks:
+
   inception:
     driver: bridge

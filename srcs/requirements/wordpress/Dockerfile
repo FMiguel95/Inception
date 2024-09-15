@@ -8,14 +8,21 @@ RUN apt-get update && apt-get install -y \
 	php7.4-fpm \
 	ca-certificates \
 	curl \
-	tar 
+	tar \
+	mariadb-client
+
+# Create directory for PHP-FPM socket
+RUN mkdir -p /run/php
+RUN chown www-data: /run/php
+
+COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
 
 # https://ubuntu.com/tutorials/install-and-configure-wordpress#3-install-wordpress
 RUN mkdir -p /srv/www
 RUN chown www-data: /srv/www
 RUN curl https://wordpress.org/latest.tar.gz | tar zx -C /srv/www
 
-
+COPY		conf/wp-config.php /srv/www/wordpress/
 
 # Start PHP-FPM
 CMD ["php-fpm7.4", "-F"]
