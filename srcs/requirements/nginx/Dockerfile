@@ -1,22 +1,27 @@
-# Use a lightweight base image with OpenSSL 1.1.1 or later for TLS 1.3 support
-FROM debian:bullseye
+FROM	debian:bullseye
 
-# Install Nginx and OpenSSL
-RUN apt-get update && apt-get install -y nginx openssl && \
-    rm -rf /var/lib/apt/lists/*
+EXPOSE	443
 
-# Copy custom Nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+# Update the package list and install  Nginx and necessary tools.
+# OpenSSL is used for SSL certificate generation.
+# Curl, wget, and telnet are used for testing the Nginx server.
+# We will then clean up the package list and remove the cache.
+RUN		apt-get update \ 
+		&& apt-get install -y \
+			nginx \
+			openssl \
+			curl \
+			wget \
+			telnet
 
-# Create directory for SSL certificates
-RUN mkdir -p /etc/nginx/ssl
+# Replace the default Nginx configuration with our custom configuration.
+COPY	conf/nginx.conf /etc/nginx/nginx.conf
 
-# Copy SSL certificates and key (you can generate them using OpenSSL)
-COPY ssl/cert.pem /etc/nginx/ssl/cert.pem
-COPY ssl/key.pem /etc/nginx/ssl/key.pem
+# Generate a self-signed SSL certificate. 
+# This is needed to enable HTTPS on the Nginx server.
+RUN		openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+		-keyout /etc/nginx/cert.key \
+		-out /etc/nginx/cert.crt \
+		-subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANIZATION}/CN=${COMMON_NAME}"
 
-# Expose port 443 for HTTPS
-EXPOSE 443
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD		["nginx", "-g", "daemon off;"]
