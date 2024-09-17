@@ -40,8 +40,8 @@ services:
       - wordpress
     networks:
       - inception
-    volumes:
-      - wordpress_data:/srv/www/wordpress
+    # volumes:
+    #   - wordpress_data:/srv/www/wordpress
       
 
 volumes:
