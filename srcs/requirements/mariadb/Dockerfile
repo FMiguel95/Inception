@@ -10,6 +10,10 @@ RUN apt-get update && apt-get install -y mariadb-server
 # Copy a custom MariaDB configuration file
 COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 
+# debug stuff
+COPY ./conf/my.cnf /etc/mysql/
+
+
 COPY ./tools/setup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/setup.sh
 

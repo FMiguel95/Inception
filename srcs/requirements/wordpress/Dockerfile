@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
 	ca-certificates \
 	curl \
 	tar \
-	mariadb-client
+	mariadb-client \
+	wget
 
 # Create directory for PHP-FPM socket
 RUN mkdir -p /run/php
@@ -22,7 +23,16 @@ RUN mkdir -p /srv/www
 RUN chown www-data: /srv/www
 RUN curl https://wordpress.org/latest.tar.gz | tar zx -C /srv/www
 
-COPY		conf/wp-config.php /srv/www/wordpress/
+#RUN cat /srv/www/wordpress/wp-config.php > conf_before
+COPY conf/wp-config.php /srv/www/wordpress/
+RUN cat /srv/www/wordpress/wp-config.php > conf_backup
 
-# Start PHP-FPM
-CMD ["php-fpm7.4", "-F"]
+
+# # Start PHP-FPM
+# CMD ["php-fpm7.4", "-F"]
+
+
+COPY tools/setup.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/setup.sh
+
+ENTRYPOINT	["/usr/local/bin/setup.sh", "php-fpm7.4", "--nodaemonize"]
