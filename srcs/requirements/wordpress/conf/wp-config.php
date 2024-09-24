@@ -4,6 +4,12 @@
 // These settings are pulled from environment variables so that we can access 
 // the database with the correct credentials.
 
+error_log( getenv('DB_NAME') );
+error_log( getenv('DB_USER_NAME') );
+error_log( getenv('DB_USER_PASS') );
+error_log( getenv('DB_HOST') );
+
+
 // define( 'DB_NAME',     getenv('DB_NAME') );
 // define( 'DB_USER',     getenv('DB_USER_NAME') );
 // define( 'DB_PASSWORD', getenv('DB_USER_PASS') );
@@ -33,13 +39,12 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
 $table_prefix = 'wp_';
 
 define('WP_DEBUG', true);
+
 define( 'WP_DEBUG_LOG', true );
 define( 'WP_DEBUG_DISPLAY', true );
 define( 'SCRIPT_DEBUG', true );
-define('SAVEQUERIES', true); // Logs every query made to the database
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
 
 
 

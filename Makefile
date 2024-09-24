@@ -9,7 +9,7 @@ folders:
 	mkdir -p ~/data/wordpress
 
 up:
-	docker compose -p $(NAME) -f $(COMPOSE) up --build -d
+	docker compose -p $(NAME) -f $(COMPOSE) up --build -d --force-recreate
 
 down:
 	docker compose -p $(NAME) -f $(COMPOSE) down --volumes
@@ -26,7 +26,7 @@ rm-image:
 clean: down rm-image
 
 fclean: clean
-	rm -rf ~/data
-	docker system prune -a
+	sudo rm -rf ~/data
+	docker system prune -a --volumes
 
 re: fclean folders up

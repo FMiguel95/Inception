@@ -1,14 +1,8 @@
 #!/bin/bash
 
-# # Wait for MySQL to be ready.
-# # This is necessary because the MySQL container might not be immediately available.
-# sleep 5
-
-until mysql -h $DB_HOST -u $DB_USER_NAME -p$DB_USER_PASS -e "show databases;"; do
-   echo "Waiting for MySQL..."
-   sleep 3
-done
-
+# Wait for MySQL to be ready.
+# This is necessary because the MySQL container might not be immediately available.
+sleep 5
 
 # Start PHP-FPM service.
 # This is required to run WP-CLI commands.

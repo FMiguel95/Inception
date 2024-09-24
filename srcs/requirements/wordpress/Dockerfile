@@ -23,16 +23,12 @@ RUN mkdir -p /srv/www
 RUN chown www-data: /srv/www
 RUN curl https://wordpress.org/latest.tar.gz | tar zx -C /srv/www
 
-#RUN cat /srv/www/wordpress/wp-config.php > conf_before
 COPY conf/wp-config.php /srv/www/wordpress/
-RUN cat /srv/www/wordpress/wp-config.php > conf_backup
-
 
 # # Start PHP-FPM
 # CMD ["php-fpm7.4", "-F"]
 
-
-COPY tools/setup.sh /usr/local/bin/
+COPY ./tools/setup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/setup.sh
 
-ENTRYPOINT	["/usr/local/bin/setup.sh", "php-fpm7.4", "--nodaemonize"]
+ENTRYPOINT	["setup.sh", "php-fpm7.4", "--nodaemonize"]
