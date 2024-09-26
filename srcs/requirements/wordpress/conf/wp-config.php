@@ -4,25 +4,12 @@
 // These settings are pulled from environment variables so that we can access 
 // the database with the correct credentials.
 
-error_log( getenv('DB_NAME') );
-error_log( getenv('DB_USER_NAME') );
-error_log( getenv('DB_USER_PASS') );
-error_log( getenv('DB_HOST') );
-
-
-// define( 'DB_NAME',     getenv('DB_NAME') );
-// define( 'DB_USER',     getenv('DB_USER_NAME') );
-// define( 'DB_PASSWORD', getenv('DB_USER_PASS') );
-// define( 'DB_HOST',     getenv('DB_HOST') );
-// define( 'WP_HOME',     getenv('WP_HOME') );
-// define( 'WP_SITEURL',  getenv('WP_SITEURL') );
-
-define( 'DB_NAME',     "wp_database" );
-define( 'DB_USER',     "dbuser" );
-define( 'DB_PASSWORD', "741" );
-define( 'DB_HOST',     "mariadb" );
-define( 'WP_HOME',     "https://fernacar.42.fr" );
-define( 'WP_SITEURL',  "https://fernacar.42.fr" );
+define( 'DB_NAME',     getenv('DB_NAME') );
+define( 'DB_USER',     getenv('DB_USER_NAME') );
+define( 'DB_PASSWORD', getenv('DB_USER_PASS') );
+define( 'DB_HOST',     getenv('DB_HOST') );
+define( 'WP_HOME',     getenv('WP_HOME') );
+define( 'WP_SITEURL',  getenv('WP_SITEURL') );
 
 define( 'DB_CHARSET', 'utf8' );
 define( 'DB_COLLATE', '' );

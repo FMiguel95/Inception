@@ -9,8 +9,9 @@ RUN apt-get update && apt-get install -y \
 	ca-certificates \
 	curl \
 	tar \
+	wget \
 	mariadb-client \
-	wget
+	iputils-ping
 
 # Create directory for PHP-FPM socket
 RUN mkdir -p /run/php

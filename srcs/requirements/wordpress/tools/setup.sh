@@ -2,7 +2,10 @@
 
 # Wait for MySQL to be ready.
 # This is necessary because the MySQL container might not be immediately available.
-sleep 5
+until mysqladmin ping -h "$DB_HOST" --silent; do
+    echo "Waiting for MySQL to be ready..."
+    sleep 2
+done
 
 # Start PHP-FPM service.
 # This is required to run WP-CLI commands.
