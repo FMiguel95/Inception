@@ -16,6 +16,7 @@ while true; do
 done
 
 # Set up the database and user
+DB_USER_PASS=$(cat /run/secrets/db_user_pass)
 mysql -u root <<-EOSQL
 	CREATE DATABASE IF NOT EXISTS ${DB_NAME};
 	CREATE USER IF NOT EXISTS '${DB_USER_NAME}'@'%' IDENTIFIED BY '${DB_USER_PASS}';

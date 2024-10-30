@@ -6,7 +6,7 @@
 
 define( 'DB_NAME',     getenv('DB_NAME') );
 define( 'DB_USER',     getenv('DB_USER_NAME') );
-define( 'DB_PASSWORD', getenv('DB_USER_PASS') );
+define( 'DB_PASSWORD', trim(file_get_contents('/run/secrets/db_user_pass')));
 define( 'DB_HOST',     getenv('DB_HOST') );
 define( 'WP_HOME',     getenv('WP_HOME') );
 define( 'WP_SITEURL',  getenv('WP_SITEURL') );
@@ -25,18 +25,22 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
 
 $table_prefix = 'wp_';
 
-define('WP_DEBUG', true);
+// define('WP_DEBUG', true);
+// define( 'WP_DEBUG_LOG', true );
+// define( 'WP_DEBUG_DISPLAY', true );
+// define( 'SCRIPT_DEBUG', true );
+// error_reporting(E_ALL);
 
-define( 'WP_DEBUG_LOG', true );
-define( 'WP_DEBUG_DISPLAY', true );
-define( 'SCRIPT_DEBUG', true );
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// ini_set('display_errors', 1);
 
 
 
 if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', __DIR__ . '/' );
 }
+
+// define( 'FORCE_SSL_LOGIN', true);
+// define( 'FORCE_SSL_ADMIN', true);
+// define( 'CONCATENATE_SCRIPTS', false );
 
 require_once ABSPATH . 'wp-settings.php';
