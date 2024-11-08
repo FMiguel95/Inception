@@ -6,13 +6,11 @@ echo "Setting up MariaDB..."
 # Start MariaDB in safe mode without networking to allow for initialization
 mysqld_safe --skip-networking &
 
-# Wait for MariaDB to be ready
-while true; do
+echo "Waiting for MariaDB to start..."
+sleep 5
+while ! mysql -u root -e "SELECT 1"; do
 	echo "Waiting for MariaDB to start..."
 	sleep 5
-	if mysql -u root -e "SELECT 1"; then
-		break
-	fi
 done
 
 # Set up the database and user

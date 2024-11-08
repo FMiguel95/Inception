@@ -31,6 +31,8 @@ services:
       - wordpress_data:/srv/www/wordpress
     secrets:
       - db_user_pass
+      - wp_user_pass
+      - wp_adm_pass
 
   nginx:
     container_name: nginx
@@ -64,9 +66,17 @@ volumes:
       device: ~/data/wordpress
       o: bind
 
+# https://docs.docker.com/compose/how-tos/use-secrets/
 secrets:
+
   db_user_pass:
     file: ../secrets/db_user_pass.txt
+
+  wp_user_pass:
+    file: ../secrets/wp_user_pass.txt
+
+  wp_adm_pass:
+    file: ../secrets/wp_adm_pass.txt
 
 networks:
 

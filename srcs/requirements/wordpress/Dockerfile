@@ -32,4 +32,4 @@ COPY conf/wp-config.php /srv/www/wordpress/
 COPY ./tools/setup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/setup.sh
 
-ENTRYPOINT	["setup.sh", "php-fpm7.4", "--nodaemonize"]
+ENTRYPOINT	["setup.sh"]
