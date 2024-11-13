@@ -22,12 +22,9 @@ COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
 # https://ubuntu.com/tutorials/install-and-configure-wordpress#3-install-wordpress
 RUN mkdir -p /srv/www
 RUN chown www-data: /srv/www
-RUN curl https://wordpress.org/latest.tar.gz | tar zx -C /srv/www
+RUN curl https://wordpress.org/wordpress-6.6.2.tar.gz | tar zx -C /srv/www
 
 COPY conf/wp-config.php /srv/www/wordpress/
-
-# # Start PHP-FPM
-# CMD ["php-fpm7.4", "-F"]
 
 COPY ./tools/setup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/setup.sh

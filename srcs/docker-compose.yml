@@ -56,17 +56,17 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ~/data/mariadb
+      device: /home/fernacar/data/mariadb
       o: bind
 
   wordpress_data:
     driver: local
     driver_opts:
       type: none
-      device: ~/data/wordpress
+      device: /home/fernacar/data/wordpress
       o: bind
 
-# https://docs.docker.com/compose/how-tos/use-secrets/
+
 secrets:
 
   db_user_pass:

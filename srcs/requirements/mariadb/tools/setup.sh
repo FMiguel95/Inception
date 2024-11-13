@@ -3,7 +3,7 @@ set -e
 
 echo "Setting up MariaDB..."
 
-# Start MariaDB in safe mode without networking to allow for initialization
+# start mariadb in safe mode without networking to allow for initialization
 mysqld_safe --skip-networking &
 
 echo "Waiting for MariaDB to start..."
@@ -13,7 +13,7 @@ while ! mysql -u root -e "SELECT 1"; do
 	sleep 5
 done
 
-# Set up the database and user
+# set up the database and user
 DB_USER_PASS=$(cat /run/secrets/db_user_pass)
 mysql -u root <<-EOSQL
 	CREATE DATABASE IF NOT EXISTS ${DB_NAME};
@@ -24,8 +24,8 @@ EOSQL
 
 echo "MariaDB setup completed successfully."
 
-# Stop the safe mode MariaDB instance
+# stop the safe mode mariadb instance
 mysqladmin -u root shutdown
 
-# Start MariaDB normally, replacing the current shell process with the mysqld process
+# start mariadb normally
 exec mysqld

@@ -4,9 +4,9 @@ COMPOSE = ./srcs/docker-compose.yml
 all: folders up 
 
 folders:
-	mkdir -p ~/data
-	mkdir -p ~/data/mariadb
-	mkdir -p ~/data/wordpress
+	mkdir -p /home/fernacar/data
+	mkdir -p /home/fernacar/data/mariadb
+	mkdir -p /home/fernacar/data/wordpress
 
 up:
 	docker compose -p $(NAME) -f $(COMPOSE) up --build -d --force-recreate
@@ -26,7 +26,7 @@ rm-image:
 clean: down rm-image
 
 fclean: clean
-	sudo rm -rf ~/data
+	sudo rm -rf /home/fernacar/data
 	docker system prune -a --volumes
 
 re: fclean folders up
