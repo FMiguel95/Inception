@@ -1,32 +1,36 @@
-NAME = inception
-COMPOSE = ./srcs/docker-compose.yml
+.PHONY: up down start stop clean fclean re
 
-all: folders up 
+NETWORK_NAME = inception
+COMPOSE_FILE = ./srcs/docker-compose.yml
+VOLUME_DIR = /home/fernacar/data
+VOLUME_WORDPRESS_DIR = $(addprefix $(VOLUME_DIR), /wordpress)
+VOLUME_MARIADB_DIR = $(addprefix $(VOLUME_DIR), /mariadb)
 
-folders:
-	mkdir -p /home/fernacar/data
-	mkdir -p /home/fernacar/data/mariadb
-	mkdir -p /home/fernacar/data/wordpress
+all: up 
 
-up:
-	docker compose -p $(NAME) -f $(COMPOSE) up --build -d --force-recreate
+$(VOLUME_WORDPRESS_DIR):
+	mkdir -p $(VOLUME_WORDPRESS_DIR)
+
+$(VOLUME_MARIADB_DIR):
+	mkdir -p $(VOLUME_MARIADB_DIR)
+
+up: $(VOLUME_WORDPRESS_DIR) $(VOLUME_MARIADB_DIR)
+	docker compose -p $(NETWORK_NAME) -f $(COMPOSE_FILE) up --build -d
 
 down:
-	docker compose -p $(NAME) -f $(COMPOSE) down --volumes
+	docker compose -p $(NETWORK_NAME) -f $(COMPOSE_FILE) down --volumes
 
 start:
-	docker compose -p $(NAME) start
+	docker compose -p $(NETWORK_NAME) start
 
 stop:
-	docker compose -p $(NAME) -f $(COMPOSE) stop
+	docker compose -p $(NETWORK_NAME) -f $(COMPOSE_FILE) stop
 
-rm-image:
-	docker rmi -f $$(docker images -q)
-
-clean: down rm-image
+clean: down
+	docker rmi -f $$(docker images -q) || true
 
 fclean: clean
-	sudo rm -rf /home/fernacar/data
 	docker system prune -a --volumes
+	sudo rm -fr $(VOLUME_DIR)
 
-re: fclean folders up
+re: fclean up
