@@ -1,11 +1,17 @@
 #!/bin/bash
 
-# Wait for MySQL to be ready
+# Wait for mariadb to be ready
+RETRY_COUNT=0
 until mysqladmin ping -h "$DB_HOST" --silent; do
-    echo "Waiting for MySQL to be ready..."
-    sleep 2
+	if [ $RETRY_COUNT -ge 2 ]; then
+		echo "MariaDB timeout. Exiting..."
+		exit 1
+	fi
+	echo "Waiting for MariaDB to be ready... ($RETRY_COUNT)"
+	sleep 2
+	RETRY_COUNT=$((RETRY_COUNT + 1))
 done
-
+echo "MariaDB is ready!"
 # https://wp-cli.org/
 wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
