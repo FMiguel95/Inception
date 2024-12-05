@@ -13,6 +13,7 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
     secrets:
+      - db_user_name
       - db_user_pass
 
   wordpress:
@@ -30,9 +31,14 @@ services:
     volumes:
       - wordpress_data:/srv/www/wordpress
     secrets:
+      - db_user_name
       - db_user_pass
-      - wp_user_pass
+      - wp_adm_user
+      - wp_adm_email
       - wp_adm_pass
+      - wp_user
+      - wp_user_email
+      - wp_user_pass
 
   nginx:
     container_name: nginx
@@ -69,14 +75,30 @@ volumes:
 
 secrets:
 
+  db_user_name:
+    file: ../secrets/db_user_name.txt
+
   db_user_pass:
     file: ../secrets/db_user_pass.txt
+
+  wp_adm_user:
+    file: ../secrets/wp_adm_user.txt
+
+  wp_adm_email:
+    file: ../secrets/wp_adm_email.txt
+
+  wp_adm_pass:
+    file: ../secrets/wp_adm_pass.txt
+
+  wp_user:
+    file: ../secrets/wp_user.txt
+
+  wp_user_email:
+    file: ../secrets/wp_user_email.txt
 
   wp_user_pass:
     file: ../secrets/wp_user_pass.txt
 
-  wp_adm_pass:
-    file: ../secrets/wp_adm_pass.txt
 
 networks:
 
