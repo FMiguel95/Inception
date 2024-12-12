@@ -13,6 +13,7 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
     secrets:
+      - db_root_pass
       - db_user_name
       - db_user_pass
 
@@ -74,6 +75,9 @@ volumes:
 
 
 secrets:
+
+  db_root_pass:
+    file: ../secrets/db_root_pass.txt
 
   db_user_name:
     file: ../secrets/db_user_name.txt

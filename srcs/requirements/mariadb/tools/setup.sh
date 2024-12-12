@@ -3,7 +3,6 @@ set -e
 
 echo "Setting up MariaDB..."
 
-# start mariadb in safe mode without networking to allow for initialization
 mysqld_safe --skip-networking &
 
 RETRY_COUNT=0
@@ -17,7 +16,11 @@ while ! mysql -u root -e "SELECT 1"; do
 	RETRY_COUNT=$((RETRY_COUNT + 1))
 done
 
-# set up the database and user
+# ROOT_PASSWORD=$(cat /run/secrets/db_root_pass)
+# mysql -u root <<-EOSQL
+# 	ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWORD}';
+# EOSQL
+
 DB_USER_NAME=$(cat /run/secrets/db_user_name)
 DB_USER_PASS=$(cat /run/secrets/db_user_pass)
 mysql -u root <<-EOSQL
@@ -29,8 +32,6 @@ EOSQL
 
 echo "MariaDB setup completed successfully."
 
-# stop the safe mode mariadb instance
 mysqladmin -u root shutdown
 
-# start mariadb normally
 exec mysqld

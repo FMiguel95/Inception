@@ -6,6 +6,7 @@
 
 define( 'DB_NAME',     getenv('DB_NAME') );
 define( 'DB_USER',     trim(file_get_contents('/run/secrets/db_user_name')));
+// echo trim(file_get_contents('/run/secrets/db_user_name'));
 define( 'DB_PASSWORD', trim(file_get_contents('/run/secrets/db_user_pass')));
 define( 'DB_HOST',     getenv('DB_HOST') );
 define( 'WP_HOME',     getenv('WP_HOME') );
