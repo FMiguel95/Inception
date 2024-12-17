@@ -32,12 +32,13 @@ services:
     volumes:
       - wordpress_data:/srv/www/wordpress
     secrets:
+      - db_root_pass
       - db_user_name
       - db_user_pass
       - wp_adm_user
       - wp_adm_email
       - wp_adm_pass
-      - wp_user
+      - wp_user_name
       - wp_user_email
       - wp_user_pass
 
@@ -94,8 +95,8 @@ secrets:
   wp_adm_pass:
     file: ../secrets/wp_adm_pass.txt
 
-  wp_user:
-    file: ../secrets/wp_user.txt
+  wp_user_name:
+    file: ../secrets/wp_user_name.txt
 
   wp_user_email:
     file: ../secrets/wp_user_email.txt

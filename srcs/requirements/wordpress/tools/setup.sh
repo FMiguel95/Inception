@@ -2,7 +2,7 @@
 
 # Wait for mariadb to be ready
 RETRY_COUNT=0
-until mysqladmin ping -h "$DB_HOST" --silent; do
+until mysqladmin -u root -p"$(cat /run/secrets/db_root_pass)" ping -h "$DB_HOST" --silent; do
 	if [ $RETRY_COUNT -ge 10 ]; then
 		echo "MariaDB timeout. Exiting..."
 		exit 1
@@ -12,6 +12,7 @@ until mysqladmin ping -h "$DB_HOST" --silent; do
 	RETRY_COUNT=$((RETRY_COUNT + 1))
 done
 echo "MariaDB is ready!"
+
 # https://wp-cli.org/
 wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
@@ -30,8 +31,8 @@ wp core install \
 		--allow-root
 
 # Create a new WordPress user if it doesn't already exist.
-if ! wp user list --field=user_login --allow-root | grep -q "^$(cat /run/secrets/wp_user)$"; then
-	wp user create $(cat /run/secrets/wp_user) $(cat /run/secrets/wp_user_email) --role="author" --user_pass=$(cat /run/secrets/wp_user_pass) --allow-root
+if ! wp user list --field=user_login --allow-root | grep -q "^$(cat /run/secrets/wp_user_name)$"; then
+	wp user create $(cat /run/secrets/wp_user_name) $(cat /run/secrets/wp_user_email) --role="author" --user_pass=$(cat /run/secrets/wp_user_pass) --allow-root
 fi
 
 # -F forces it to run in the foreground
