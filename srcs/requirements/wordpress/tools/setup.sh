@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Wait for mariadb to be ready
 RETRY_COUNT=0
 until mysqladmin -u root -p"$(cat /run/secrets/db_root_pass)" ping -h "$DB_HOST" --silent; do
 	if [ $RETRY_COUNT -ge 10 ]; then
@@ -18,9 +17,8 @@ wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
-cd /srv/www/wordpress
-
 # https://make.wordpress.org/cli/handbook/how-to/how-to-install/#step-4-install-wordpress
+cd /srv/www/wordpress
 wp core install \
 		--url=$WP_URL \
 		--title=$WP_TITLE \
@@ -30,7 +28,6 @@ wp core install \
 		--skip-email \
 		--allow-root
 
-# Create a new WordPress user if it doesn't already exist.
 if ! wp user list --field=user_login --allow-root | grep -q "^$(cat /run/secrets/wp_user_name)$"; then
 	wp user create $(cat /run/secrets/wp_user_name) $(cat /run/secrets/wp_user_email) --role="author" --user_pass=$(cat /run/secrets/wp_user_pass) --allow-root
 fi
